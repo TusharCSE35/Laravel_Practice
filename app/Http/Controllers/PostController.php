@@ -12,7 +12,7 @@ class PostController extends Controller
         return view('create'); 
     } 
 
-    public function ourfilestore(Request $request){
+    public function ourFileStore(Request $request){
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -30,52 +30,64 @@ class PostController extends Controller
             $request->description,
             $imagePath ?? null
         ]);
+        
+        flash()->success('Post has been created successfully');
+        return redirect()->route('home');
 
-        return redirect()->route('home')->with('success', 'Post hass been created');
     }
 
     public function editdata($id){
         $post = DB::select("SELECT * FROM posts WHERE id=?", [$id]);
         
         if(!$post){
-            return redirect()->route('home')->with('error', 'Post not found');
+            flash()->error('Post not found');
+            return redirect()->route('home');
         }
 
         return view('edit', ['post' => $post[0]]);
     }
 
-
-    public function updatePost(Request $request, $id)
-    {
+    public function updatePost(Request $request, $id){
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // Retrieve the existing post
         $existingPost = DB::select("SELECT * FROM posts WHERE id = ?", [$id]);
-
-        if (!$existingPost) {
-            return redirect()->route('home')->with('error', 'Post not found');
+        if(!$existingPost){
+            flash()->error('Post not found');
+            return redirect()->route('home');
         }
 
-        $imagePath = $existingPost[0]->image; // Keep old image if no new image is uploaded
-
-        if ($request->hasFile('image')) {
-            $imagePath = time() . '.' . $request->image->extension();
+        $imagePath = $existingPost[0]->image;
+        if($request->hasFile('image')){
+            $imagePath = time(). '.' . $request->image->extension();
             $request->image->move(public_path('images'), $imagePath);
         }
 
-        // Update the post
-        DB::update("UPDATE posts SET name = ?, description = ?, image = ?, updated_at = NOW() WHERE id = ?", [
+        DB::update("UPDATE posts SET name=?, description=?, image=?, updated_at=NOW() WHERE id=?", [
             $request->name,
             $request->description,
             $imagePath,
             $id
         ]);
+         
+        flash()->success('Post has been updated successfully');
+        return redirect()->route('home');
+    }
 
-        return redirect()->route('home')->with('success', 'Post has been updated successfully');
+    public function deletePost($id){
+        $post = DB::select("SELECT * FROM posts WHERE id=?", [$id]);
+        if(!$post){
+            flash()->error('Post not found');
+            return redirect()->route('home');
+        }
+
+        DB::delete("DELETE FROM posts WHERE id=?", [$id]);
+        
+        flash()->success('Post has been delated successfully');
+        return redirect()->route('home');
     }
 }
 

@@ -18,7 +18,7 @@
 <body>
     <div class="container">
         <div class="flex justify-between my-5">
-            <h2 class="text-red-500 text-xl">Edit</h2>
+            <h2 class="text-red-500 text-xl">Edit - {{$post->name}}</h2>
             <a href="/" class="bg-green-600 text-white rounded py-2 px-4">Back To Home</a>
         </div>
 
@@ -29,7 +29,7 @@
         @endif
 
         <div>
-            <form method="POST" action="{{route('updatePost', $post->id)}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('update', $post->id)}}" enctype="multipart/form-data">
                 @csrf
                 <div class="flex flex-col gap-5">
                     <label for="name">Name</label>
