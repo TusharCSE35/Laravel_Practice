@@ -18,6 +18,10 @@
             .btn2 {
                 @apply bg-red-600 text-white rounded py-2 px-4
             }
+
+            .btn3 {
+                @apply bg-blue-600 text-white rounded py-2 px-4
+            }
         }
     </style>
     <title>Home</title>
@@ -29,13 +33,6 @@
             <h2 class="text-red-500 text-xl">Home</h2>
             <a href="/create" class="btn">Add New Post</a>
         </div>
-
-        <!-- Show success message if available -->
-        <!-- @if(session('success'))
-            <div class="text-green-600 mt-4">
-                {{ session('success') }}
-            </div>
-        @endif -->
 
         <div class="">
             <div class="flex flex-col">
@@ -60,7 +57,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{$post->description}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><img src="images/{{$post->image}}" width="80px" alt=""></td>
                                         <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                            <a href="{{route('edit', $post->id)}}" class="btn">Edit</a>
+                                            <a href="{{route('edit', $post->id)}}" class="btn3">Edit</a>
                                             <a href="{{route('delete', $post->id)}}" onclick="return confirm('Are you sure you want to delete this post?')" class="btn2">Delete</a>
                                         </td>
                                     </tr>

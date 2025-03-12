@@ -18,4 +18,3 @@ Route::post('/update/{id}', [PostController::class, 'updatePost'])->name('update
 
 Route::get('/delete/{id}', [PostController::class, 'deletePost'])->name('delete');
 
-

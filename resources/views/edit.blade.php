@@ -22,12 +22,6 @@
             <a href="/" class="bg-green-600 text-white rounded py-2 px-4">Back To Home</a>
         </div>
 
-        @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
         <div>
             <form method="POST" action="{{route('update', $post->id)}}" enctype="multipart/form-data">
                 @csrf
